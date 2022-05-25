@@ -1,6 +1,7 @@
 from unicodedata import category
 from django.db import models
 from django.contrib.auth.models import User
+from django import forms
 
 class Category(models.Model):
     name = models.CharField(max_length=255,db_index=True)
@@ -32,5 +33,41 @@ class Product(models.Model):
     def __str__(self):
         return self.instrument_name
 
-        
+class Tipo_usuario(models.Model):
+    TIPE_CHOICES = (
+        ('GERENTE', 'GERENTE'),
+        ('VENDEDOR', 'VENDEDOR'),
+        ('BODEGUERO', 'BODEGUERO'),
+        ('CONTADOR', 'CONTADOR'),
+    )
+    
+    id_tipo_usuario = models.IntegerField
+    nombre_tipo_usuario = models.CharField('Tipo de Usuario', max_length=10, choices=TIPE_CHOICES)
+    descripcion_tipo_usuario = models.CharField(max_length=200)
+    def __str__(self):
+        return self.nombre_tipo_usuario
+    
+    class Meta:
+        verbose_name = 'Tipo de Usuario'
+        verbose_name_plural = 'Tipos de Usuarios'
+        unique_together = ('nombre_tipo_usuario','descripcion_tipo_usuario')
+    
+
+class Usuario(models.Model):
+    
+    code_id_usuario = models.AutoField(primary_key=True)
+    rut_usuario = models.CharField(max_length=10)
+    nombre_usuario = models.CharField(max_length=50)
+    apellido_usuario = models.CharField(max_length=50)
+    correo_usuario = models.EmailField(max_length=50)
+    contrasena_usuario = models.CharField(max_length=50)
+    tipo_usuario = models.ForeignKey(Tipo_usuario, on_delete=models.CASCADE)
+    
+    class Meta:
+        verbose_name = 'Usuario'
+        verbose_name_plural = 'Todos los usuarios'
+        unique_together = ('rut_usuario',)
+    
+    def __str__(self):
+        return self.nombre_usuario + ' ' + str(self.tipo_usuario)
     

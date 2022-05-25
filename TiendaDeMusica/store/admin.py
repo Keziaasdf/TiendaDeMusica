@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Product
+from .models import Category, Product, Usuario, Tipo_usuario
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -14,3 +14,7 @@ class ProductAdmin(admin.ModelAdmin):
         list_filter = ['in_stock', 'is_active']
         list_editable = ['price', 'in_stock']
         prepopulated_fields = {'slug': ('instrument_name',)}
+
+
+admin.site.register(Usuario)
+admin.site.register(Tipo_usuario)
