@@ -15,3 +15,4 @@ venv\Scripts\activate
 pip install django
 
 //correr la app
+py manage.py runserver
